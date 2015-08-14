@@ -205,7 +205,7 @@ int main(int argc, char** argv)
 {
     if (argc != 2)
     {
-        std::cerr << "Usage: ./Turing3d program" << std::endl;
+        std::cerr << "Usage: ./turing3d program" << std::endl;
         std::exit(1);
     }
     int res = load_from_file(argv[1],
