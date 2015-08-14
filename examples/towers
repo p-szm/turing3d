@@ -1,0 +1,93 @@
+[START_STATE]
+GoLeft
+
+[END_STATE]
+End
+
+[START_POS]
+(0 0 0)
+
+[DEFAULT_SYMBOL]
+_
+
+[TAPE_SYMBOLS]
+(-3 0 0) = G
+(-2 0 0) = A
+(-1 0 0) = G
+(0 0 0) = G
+(1 0 0) = G
+(2 0 0) = B
+(3 0 0) = G
+
+(-2 1 0) = 0
+(-2 2 0) = 1
+(-2 3 0) = 1
+(-2 4 0) = 0
+(-2 5 0) = 1
+(-2 6 0) = 1
+(-2 7 0) = 0
+(-2 8 0) = 0
+(-2 9 0) = 0
+(-2 10 0) = 1
+
+[RULES]
+GoLeft G = GoLeft G (-1 0 0)
+GoLeft A = TurnUp A (0 1 0)
+
+TurnUp 0 = GoUp 0 (0 1 0)
+TurnUp 1 = GoUp 1 (0 1 0)
+TurnUp _ = End _ (0 -1 0)
+
+GoUp 0 = GoUp 0 (0 1 0)
+GoUp 1 = GoUp 1 (0 1 0)
+GoUp _ = Drop _ (0 -1 0)
+
+Drop 0 = C0GoDown _ (0 -1 0)
+Drop 1 = C1GoDown _ (0 -1 0)
+
+C0GoDown 0 = C0GoDown 0 (0 -1 0)
+C0GoDown 1 = C0GoDown 1 (0 -1 0)
+C0GoDown A = C0GoRight A (1 0 0)
+
+C1GoDown 0 = C1GoDown 0 (0 -1 0)
+C1GoDown 1 = C1GoDown 1 (0 -1 0)
+C1GoDown A = C1GoRight A (1 0 0)
+
+C0GoRight G = C0GoRight G (1 0 0)
+C0GoRight B = C0GoUp B (0 1 0)
+
+C1GoRight G = C1GoRight G (1 0 0)
+C1GoRight B = C1GoUp B (0 1 0)
+
+C0GoUp 0 = C0GoUp 0 (0 1 0)
+C0GoUp 1 = C0GoUp 1 (0 1 0)
+C0GoUp _ = GoDown 0 (0 -1 0)
+
+C1GoUp 0 = C1GoUp 0 (0 1 0)
+C1GoUp 1 = C1GoUp 1 (0 1 0)
+C1GoUp _ = GoDown 1 (0 -1 0)
+
+GoDown 0 = GoDown 0 (0 -1 0)
+GoDown 1 = GoDown 1 (0 -1 0)
+GoDown B = GoLeft B (-1 0 0)
+
+[SYMBOL_COLORS]
+G = (0.5 0.5 0.5)
+A = (1 0.6 0.6)
+B = (0.6 1 0.6)
+0 = (0.3 0.7 0.7)
+1 = (0.7 0.7 0.3)
+
+[STATE_COLORS]
+GoLeft = (1 1 1)
+TurnUp = (1 1 1)
+GoUp = (1 1 1)
+Drop = (1 0.7 0.7)
+C0GoDown = (0.3 0.7 0.7)
+C1GoDown = (0.7 0.7 0.3)
+C0GoRight = (0.3 0.7 0.7)
+C1GoRight = (0.7 0.7 0.3)
+C0GoUp = (0.3 0.7 0.7)
+C1GoUp = (0.7 0.7 0.3)
+GoDown = (1 1 1)
+End = (0.7 1 0.7)
