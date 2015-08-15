@@ -20,6 +20,7 @@ TuringMachine3d::TuringMachine3d(Tape3d* t, RuleBook* book,
     end_state = end;
     verbose = verb;
     crashed = false;
+    move_no = 0;
 }
 
 Symbol TuringMachine3d::read_square() const
@@ -47,6 +48,7 @@ void TuringMachine3d::step()
     if (crashed and verbose)
         std::cout << "Machine has crashed" << std::endl;
     
+    move_no++;
     Symbol sym = read_square();
     
     Instruction instr;
@@ -63,7 +65,8 @@ void TuringMachine3d::step()
     }
     
     if (verbose)
-        std::cout << position << ": " <<
+        std::cout << "Move " << move_no <<
+        ", pos " << position << ": " <<
         '(' << state << "," << sym << ")->(" <<
         instr.new_state << "," << instr.new_symbol << "), move by " <<
         instr.direction << std::endl;

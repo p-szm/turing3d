@@ -41,6 +41,8 @@ private:
     
     bool verbose;
     bool crashed;
+    
+    int move_no;
 };
 
 #endif /* defined(__turing3d__turingmachine3d__) */
