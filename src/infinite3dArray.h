@@ -30,10 +30,23 @@ public:
         int first, second, third;
         Triplet(int a, int b, int c): first(a), second(b), third(c) {}
         friend bool operator< (const Triplet<S>& t1, const Triplet<S>& t2)
-        { return (t1.first < t2.first) ||
-            (!(t2.first < t1.first) && (t1.second < t2.second)) ||
-            (!(t2.second < t1.second) && (t1.third < t2.third)); }
+        {
+            if (t1.first < t2.first) return true;
+            if (t1.first > t2.first) return false;
+            
+            // firsts are equal
+            if (t1.second < t2.second)  return true;
+            if (t1.second > t2.second)  return false;
+            
+            // seconds are equal
+            if (t1.third < t2.third)  return true;
+            if (t1.third > t2.third)  return false;
+            
+            // thirds are equal
+            return false;
+        }
     };
+    
 protected:
     T default_elem;
     std::map<Triplet<int>, T> data;
@@ -68,7 +81,7 @@ T& Infinite3dArray<T>::get(int x, int y, int z)
 template <class T>
 void Infinite3dArray<T>::remove(int x, int y, int z)
 {
-    data.erase(data.find(Triplet<int>(x, y, z)));
+    data.erase(Triplet<int>(x, y, z));
 }
 
 template <class T>
