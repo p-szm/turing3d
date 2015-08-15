@@ -13,8 +13,6 @@
 #include "typedefs.h"
 #include "infinite3dArray.h"
 
-#define TAPE_SIZE 65
-
 class Tape3d: public Infinite3dArray<Symbol>
 {
     friend class Renderer;

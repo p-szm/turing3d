@@ -20,11 +20,15 @@ class TuringMachine3d;
 class Renderer
 {
 public:
+    Renderer();
     void render(const Tape3d* tape) const;
     void render(const TuringMachine3d* machine) const;
     
     void define_symbol_color(Symbol sym, Vec3<float> color);
     void define_state_color(State state, Vec3<float> color);
+    
+    float axis_len;
+    float voxel_size;
 private:
     std::map<Symbol, Vec3<float> > symbol_colors;
     std::map<State, Vec3<float> > state_colors;

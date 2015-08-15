@@ -24,7 +24,7 @@ int width = 800;
 int height = 600;
 double theta = 20.0;
 double phi = 30.0;
-double r = 8.0;
+double r = 15.0;
 double eyeX = 0.0;
 double eyeY = 0.0;
 double eyeZ = r;
@@ -69,7 +69,15 @@ void update_view()
     // Define the projection transformation
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(60, width/(float)height, 0.1, r+TAPE_SIZE*0.5*2);
+    gluPerspective(60, width/(float)height, 0.1, r + renderer->axis_len*2);
+}
+
+void update_axes()
+{
+    // Change the length of the axes
+    renderer->axis_len = r/2.0;
+    if (renderer->axis_len < 10.0)
+        renderer->axis_len = 10.0;
 }
 
 void onMouseMove(int x, int y)
@@ -118,13 +126,8 @@ void reshape(int w, int h)
 {
     width = w;
     height = h;
-    
-    // Define the viewport transformation
     glViewport(0, 0, width, height);
-    
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(60, width/(float)height, 0.1, r*2);
+    update_view();
 }
 
 void key_down(unsigned char key, int x, int y)
@@ -170,11 +173,13 @@ void idle()
     {
         r /= 1.01;
         update_view();
+        update_axes();
     }
     else if (arrows.down)
     {
         r *= 1.01;
         update_view();
+        update_axes();
     }
     else if (arrows.left)
     {
@@ -225,7 +230,10 @@ int main(int argc, char** argv)
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
     
     // Create a window
-    glutCreateWindow("turing3d");
+    std::string full_fname = std::string(argv[1]);
+    std::string fname = full_fname.substr(full_fname.find_last_of("/\\")+1);
+    std::string window_title = "turing3d (" + fname + ")";
+    glutCreateWindow(window_title.c_str());
     
     // Register callback functions
     glutDisplayFunc(display);

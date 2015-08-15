@@ -12,7 +12,11 @@
 #include "tape3d.h"
 #include "turingmachine3d.h"
 
-double voxel_size = 0.5;
+Renderer::Renderer()
+{
+    voxel_size = 1.0;
+    axis_len = 10.0;
+}
 
 void Renderer::define_symbol_color(Symbol sym, Vec3<float> color)
 {
@@ -26,24 +30,42 @@ void Renderer::define_state_color(State state, Vec3<float> color)
 
 void Renderer::render(const Tape3d *tape) const
 {
-    double cube_size = voxel_size * TAPE_SIZE;
-    
-    glColor3f(0, 0, 0);
     glLineWidth(0.5);
-    glutWireCube(cube_size*1.01);
-    
     glBegin(GL_LINES);
-    glColor3f(1, 0, 0);
-    glVertex3f(-cube_size*0.6, 0, 0);
-    glVertex3f(cube_size, 0, 0);
     
-    glColor3f(0, 1, 0);
-    glVertex3f(0, -cube_size*0.6, 0);
-    glVertex3f(0, cube_size, 0);
+    // x axis
+    glColor4f(1, 0, 0, 1);
+    glVertex3f(0, 0, 0);
+    glColor4f(1, 0, 0, 0);
+    glVertex3f(axis_len, 0, 0);
     
-    glColor3f(0, 0, 1);
-    glVertex3f(0, 0, -cube_size*0.6);
-    glVertex3f(0, 0, cube_size);
+    glColor4f(0, 0, 0, 1);
+    glVertex3f(0, 0, 0);
+    glColor4f(0, 0, 0, 0);
+    glVertex3f(-axis_len, 0, 0);
+    
+    // y axis
+    glColor4f(0, 1, 0, 1);
+    glVertex3f(0, 0, 0);
+    glColor4f(0, 1, 0, 0);
+    glVertex3f(0, axis_len, 0);
+    
+    glColor4f(0, 0, 0, 1);
+    glVertex3f(0, 0, 0);
+    glColor4f(0, 0, 0, 0);
+    glVertex3f(0, -axis_len, 0);
+    
+    // z axis
+    glColor4f(0, 0, 1, 1);
+    glVertex3f(0, 0, 0);
+    glColor4f(0, 0, 1, 0);
+    glVertex3f(0, 0, axis_len);
+    
+    glColor4f(0, 0, 0, 1);
+    glVertex3f(0, 0, 0);
+    glColor4f(0, 0, 0, 0);
+    glVertex3f(0, 0, -axis_len);
+
     glEnd();
     
     for (auto it = tape->data.begin(); it != tape->data.end(); it++)
