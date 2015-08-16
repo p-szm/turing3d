@@ -18,7 +18,7 @@ class RuleBook;
 class Renderer;
 class TuringMachine3d;
 
-int load_from_file(std::string filename, Tape3d*& tape, RuleBook*& rulebook,
+int load_from_file(std::string filename, bool verbose, Tape3d*& tape, RuleBook*& rulebook,
                     TuringMachine3d*& machine, Renderer*& renderer);
 
 #endif /* defined(__turing3d__loader__) */

@@ -17,7 +17,7 @@
 
 #define BUF_SIZE 32
 
-int load_from_file(std::string filename, Tape3d*& tape, RuleBook*& rulebook,
+int load_from_file(std::string filename, bool verbose, Tape3d*& tape, RuleBook*& rulebook,
                    TuringMachine3d*& machine, Renderer*& renderer)
 {
     std::ifstream file(filename.c_str());
@@ -149,7 +149,7 @@ int load_from_file(std::string filename, Tape3d*& tape, RuleBook*& rulebook,
         }
     }
     
-    machine = new TuringMachine3d(tape, rulebook, start_state, end_state, start_pos, true);
+    machine = new TuringMachine3d(tape, rulebook, start_state, end_state, start_pos, verbose);
     
     file.close();
     

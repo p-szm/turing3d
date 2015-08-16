@@ -206,14 +206,75 @@ void idle()
     glutPostRedisplay();
 }
 
+void print_usage(bool short_description)
+{
+    std::cout << "Usage: ./turing3d [-hmv] program" << std::endl;
+    if (!short_description)
+    {
+        std::cout <<
+        "  -h, --help       Show this help message and exit\n" <<
+        "  -v, --verbose    Verbose mode" <<
+        "  -m, --manual     Manual mode (control the Turing machine by pressing ENTER)" <<
+        std::endl;
+    }
+}
+
 int main(int argc, char** argv)
 {
-    if (argc != 2)
+    // Put the arguments into a vector and
+    // break up -abcd into -a -b -c -d.
+    std::vector<std::string> arguments;
+    for (int i = 1; i < argc; i++)
     {
-        std::cerr << "Usage: ./turing3d program" << std::endl;
+        std::string arg = argv[i];
+        if (arg[0] == '-' && arg.size() > 1 && arg.substr(0,2) != "--")
+        {
+            for (int j = 1; j < arg.size(); j++)
+            {
+                std::string new_arg(1, arg[j]);
+                new_arg = "-" + new_arg;
+                arguments.push_back(new_arg);
+            }
+        }
+        else
+            arguments.push_back(argv[i]);
+    }
+    
+    // Process the arguments
+    bool verbose = false;
+    std::string filename = "";
+    bool filename_supplied = false;
+    for (int i = 0; i < arguments.size(); i++)
+    {
+        std::string arg = arguments[i];
+        if (arg == "--verbose" || arg == "-v")
+            verbose = true;
+        else if (arg == "--help" || arg == "-h")
+        {
+            print_usage(false);
+            std::exit(0);
+        }
+        else if (arg == "--manual" || arg == "-m")
+            manual = true;
+        else if (arg[0] == '-')
+        {
+            std::cerr << "Unrecognised option " << arg << std::endl;
+            std::exit(1);
+        }
+        else if (!filename_supplied)
+        {
+            filename = arg;
+            filename_supplied = true;
+        }
+    }
+    if (!filename_supplied)
+    {
+        print_usage(true);
         std::exit(1);
     }
-    int res = load_from_file(argv[1],
+    
+    // Load the file, quit when there is something wrong
+    int res = load_from_file(filename, verbose,
                              tape, rulebook, machine, renderer);
     if (res != 0)
     {
